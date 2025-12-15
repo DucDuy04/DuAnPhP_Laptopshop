@@ -51,7 +51,9 @@ require_once __DIR__ . '/../layout/header.php';
                                 <?php foreach ($orders as $order): ?>
                                     <tr>
                                         <td class="text-center">
-                                            <strong>#<?= $order['id'] ?></strong>
+                                            <a href="<?= url('/order/' . $order['id']) ?>" title="Xem chi tiết đơn #<?= $order['id'] ?>">
+                                                <strong>#<?= $order['id'] ?></strong>
+                                            </a>
                                         </td>
                                         <td>
                                             <i class="far fa-calendar-alt me-2 text-muted"></i>

@@ -150,7 +150,29 @@ class CartController extends Controller
             $this->cartModel->updateSum($cart['id']);
         }
 
-        $this->redirect('/checkout');
+        // Nếu là AJAX request, trả JSON với tổng tiền và subtotal từng item
+        if ($this->isAjax()) {
+            $cart = $this->cartModel->getCartWithDetails($userId);
+            $items = [];
+            if (!empty($cart['items'])) {
+                foreach ($cart['items'] as $it) {
+                    $items[$it['id']] = [
+                        'quantity' => (int)$it['quantity'],
+                        'subtotal' => (float)($it['price'] * $it['quantity'])
+                    ];
+                }
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode([
+                'success' => true,
+                'items' => $items,
+                'totalPrice' => $cart['total_price'] ?? 0
+            ]);
+            exit;
+        }
+
+        $this->redirect('/cart');
     }
 
     /**

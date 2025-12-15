@@ -35,6 +35,8 @@ $router->get('/checkout', 'CheckoutController@index');
 $router->post('/place-order', 'CheckoutController@placeOrder');
 $router->get('/thanks', 'CheckoutController@thanks');
 $router->get('/order-history', 'CheckoutController@orderHistory');
+// Order detail (client)
+$router->get('/order/{id}', 'CheckoutController@showOrder');
 
 
 // ==================== ADMIN ROUTES ====================

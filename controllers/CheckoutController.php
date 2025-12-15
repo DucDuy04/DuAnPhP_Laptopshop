@@ -161,4 +161,34 @@ class CheckoutController extends Controller
             'pageTitle' => 'Lịch sử đơn hàng - LaptopShop'
         ]);
     }
+
+    /**
+     * Hiển thị chi tiết đơn hàng cho client
+     * GET /order/{id}
+     */
+    public function showOrder($orderId)
+    {
+        requireLogin();
+
+        $userId = Auth::id();
+        $order = $this->orderModel->findByIdWithDetails($orderId);
+
+        if (! $order) {
+            http_response_code(404);
+            $this->view('errors/404', []);
+            return;
+        }
+
+        // Kiểm tra quyền: chỉ owner mới xem được
+        if ($order['user_id'] != $userId) {
+            http_response_code(403);
+            $this->view('errors/403', []);
+            return;
+        }
+
+        $this->view('client/order/detail', [
+            'order' => $order,
+            'pageTitle' => 'Chi tiết đơn hàng #' . $orderId
+        ]);
+    }
 }
