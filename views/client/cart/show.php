@@ -54,13 +54,11 @@ require_once __DIR__ . '/../layout/header.php';
                                     </td>
                                     <td class="align-middle item-subtotal" data-item-id="<?= $item['id'] ?>"><?= formatMoney($item['price'] * $item['quantity']) ?></td>
                                     <td class="align-middle">
-                                        <form action="<?= url('/delete-cart-product/' . $item['id']) ?>" method="POST"
-                                            onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này? ')">
-                                            <?= Csrf::field() ?>
-                                            <button type="submit" class="btn btn-danger btn-sm">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                        </form>
+                                        <button type="button" class="btn btn-danger btn-sm btn-delete-cart"
+                                            data-url="<?= url('/delete-cart-product/' . $item['id']) ?>"
+                                            data-item-id="<?= $item['id'] ?>">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -183,6 +181,46 @@ require_once __DIR__ . '/../layout/header.php';
                 if (v < 1) inp.value = 1;
                 scheduleUpdate();
             });
+        });
+
+        // Handle delete buttons (AJAX) to avoid nested forms
+        document.addEventListener('click', function(e) {
+            var btn = e.target.closest('.btn-delete-cart');
+            if (!btn) return;
+
+            if (!confirm('Bạn có chắc muốn xóa sản phẩm này?')) return;
+
+            var url = btn.getAttribute('data-url');
+            // read CSRF token from the outer form
+            var tokenInput = form.querySelector('input[name="_csrf_token"]');
+            var token = tokenInput ? tokenInput.value : '';
+
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': token
+                    },
+                    body: new URLSearchParams({
+                        '_csrf_token': token
+                    })
+                }).then(function(res) {
+                    return res.json();
+                })
+                .then(function(json) {
+                    if (json && json.success) {
+                        // remove the row from DOM and reload to refresh totals
+                        var tr = btn.closest('tr');
+                        if (tr) tr.remove();
+                        // reload to update totals and cart count
+                        location.reload();
+                    } else {
+                        alert((json && json.message) || 'Xóa thất bại');
+                    }
+                }).catch(function(err) {
+                    console.error('Delete failed', err);
+                    alert('Xóa thất bại');
+                });
         });
     })();
 </script>

@@ -22,27 +22,42 @@ require_once __DIR__ . '/../layout/header.php';
                         <form method="POST" action="<?= url('/place-order') ?>">
                             <?= Csrf::field() ?>
 
+                            <?php
+                            $errors = Session::getErrors();
+                            $old = Session::getOldInput();
+                            if (!empty($errors) && is_array($errors)): ?>
+                                <div class="alert alert-danger">
+                                    <ul class="mb-0">
+                                        <?php foreach ($errors as $err): ?>
+                                            <li><?= e($err) ?></li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
+                            <?php endif; ?>
+
                             <div class="mb-3">
                                 <label class="form-label">Họ tên *</label>
                                 <input type="text" name="receiverName" class="form-control"
-                                    value="<?= e($user['fullName'] ?? '') ?>" required>
+                                    value="<?= e($old['receiverName'] ?? $user['fullName'] ?? '') ?>" required>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Địa chỉ nhận hàng *</label>
-                                <textarea name="receiverAddress" class="form-control" rows="3" required><?= e($user['address'] ?? '') ?></textarea>
+                                <textarea name="receiverAddress" class="form-control" rows="3" required><?= e($old['receiverAddress'] ?? $user['address'] ?? '') ?></textarea>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Số điện thoại *</label>
                                 <input type="tel" name="receiverPhone" class="form-control"
-                                    value="<?= e($user['phone'] ?? '') ?>" required>
+                                    value="<?= e($old['receiverPhone'] ?? $user['phone'] ?? '') ?>" required>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Ghi chú</label>
-                                <textarea name="note" class="form-control" rows="2" placeholder="Ghi chú về đơn hàng..."></textarea>
+                                <textarea name="note" class="form-control" rows="2" placeholder="Ghi chú về đơn hàng..."><?= e($old['note'] ?? '') ?></textarea>
                             </div>
+
+                            <?php Session::clearValidation(); ?>
 
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary btn-lg">

@@ -5,12 +5,33 @@
  * Chạy 1 lần rồi xóa
  */
 
-require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 try {
+
     $db = Database::getInstance()->getConnection();
 
+    // Kiểm tra xem database hiện tại đã có bảng chưa — nếu có, abort để tránh ghi đè dữ liệu
+    try {
+        $stmtCheck = $db->prepare("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = :schema");
+        $stmtCheck->execute([':schema' => DB_NAME]);
+        $existingTables = (int)$stmtCheck->fetchColumn();
+        if ($existingTables > 0) {
+            echo "<h2>Database đã chứa dữ liệu</h2>";
+            echo "<p style='color:red;'>Cơ sở dữ liệu <strong>" . htmlspecialchars(DB_NAME) . "</strong> hiện đang chứa <strong>" . $existingTables . "</strong> bảng. Import sẽ bị dừng để tránh mất dữ liệu.</p>";
+            echo "<p>Để tiếp tục, hãy tạo database mới hoặc xóa các bảng hiện có trước khi chạy file import.</p>";
+            exit;
+        }
+    } catch (Exception $e) {
+        // Nếu không thể kiểm tra thông tin schema, abort để an toàn
+        echo "<p style='color:red;'>Không thể kiểm tra trạng thái database: " . htmlspecialchars($e->getMessage()) . "</p>";
+        exit;
+    }
+
     echo "<h2>Import Database từ Java Project</h2>";
+
+    // Bắt đầu transaction để có thể rollback khi lỗi
+    $db->beginTransaction();
 
     // Tắt foreign key check
     $db->exec("SET FOREIGN_KEY_CHECKS = 0");
@@ -54,9 +75,10 @@ try {
     // Tạo admin (password: 123456)
     $adminPassword = password_hash('123456', PASSWORD_BCRYPT);
 
-    // Dùng query trực tiếp thay vì prepare để tránh lỗi placeholder
-    $db->exec("INSERT INTO users (email, password, fullName, role_id) VALUES ('admin@gmail.com', '$adminPassword', 'Administrator', 1)");
-    $db->exec("INSERT INTO users (email, password, fullName, role_id) VALUES ('user@gmail.com', '$adminPassword', 'Nguyen Van A', 2)");
+    // Dùng prepared statements cho INSERT để an toàn hơn
+    $stmtUser = $db->prepare("INSERT INTO users (email, password, fullName, role_id) VALUES (:email, :password, :fullName, :role_id)");
+    $stmtUser->execute([':email' => 'admin@gmail.com', ':password' => $adminPassword, ':fullName' => 'Administrator', ':role_id' => 1]);
+    $stmtUser->execute([':email' => 'user@gmail.com', ':password' => $adminPassword, ':fullName' => 'Nguyen Van A', ':role_id' => 2]);
 
     echo "<p style='color:green;'>✓ Đã tạo bảng users với admin và user</p>";
 
@@ -168,6 +190,9 @@ try {
     // Bật lại foreign key check
     $db->exec("SET FOREIGN_KEY_CHECKS = 1");
 
+    // Commit transaction nếu tất cả bước trước thành công
+    $db->commit();
+
     // ============ KIỂM TRA ============
     echo "<hr>";
     echo "<h3>Kết quả: </h3>";
@@ -212,8 +237,12 @@ try {
     echo "</ul>";
     echo "<p><a href='/login'>👉 Đăng nhập ngay</a></p>";
     echo "<hr>";
-    echo "<p style='color:red;'><strong>⚠️ XÓA file import_java_db.php sau khi hoàn tất! </strong></p>";
+    echo "<p style='color:red;'><strong>⚠️ XÓA file laptopshop.php sau khi hoàn tất! </strong></p>";
 } catch (Exception $e) {
+    // Nếu có transaction đang mở, rollback để không để DB ở trạng thái nửa vời
+    if (isset($db) && $db->inTransaction()) {
+        $db->rollBack();
+    }
     echo "<p style='color: red;'>Lỗi: " . $e->getMessage() . "</p>";
     echo "<pre>" . $e->getTraceAsString() . "</pre>";
 }

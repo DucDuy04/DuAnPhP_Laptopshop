@@ -88,6 +88,13 @@ class CheckoutController extends Controller
 
         if (! empty($errors)) {
             Session::setErrors($errors);
+            // Preserve submitted values so the form can be repopulated after redirect
+            Session::setOldInput([
+                'receiverName' => $receiverName,
+                'receiverPhone' => $receiverPhone,
+                'receiverAddress' => $receiverAddress,
+                'note' => $this->input('note')
+            ]);
             $this->redirect('/checkout');
             return;
         }

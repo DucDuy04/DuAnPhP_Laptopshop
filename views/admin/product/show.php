@@ -52,13 +52,13 @@ require_once __DIR__ . '/../layout/sidebar.php';
                                     <td><?= $product['quantity'] ?></td>
                                     <td>
                                         <a href="<?= url('/admin/product/' . $product['id']) ?>" class="btn btn-info btn-sm">
-                                            Xem <i class="fas fa-eye"></i>
+                                            <i class="fas fa-eye"></i>
                                         </a>
                                         <a href="<?= url('/admin/product/update/' . $product['id']) ?>" class="btn btn-warning btn-sm">
-                                            Sửa<i class="fas fa-edit"></i>
+                                            <i class="fas fa-edit"></i>
                                         </a>
                                         <a href="<?= url('/admin/product/delete/' . $product['id']) ?>" class="btn btn-danger btn-sm">
-                                            Xóa<i class="fas fa-trash"></i>
+                                            <i class="fas fa-trash"></i>
                                         </a>
                                     </td>
                                 </tr>

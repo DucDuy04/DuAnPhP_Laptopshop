@@ -31,7 +31,7 @@
 
             .container {
                 background: white;
-                border: 3px solid #4CAF50;
+                border: 3px solid #0646c5ff;
                 border-radius: 10px;
                 width: 500px;
                 padding: 40px;
@@ -77,7 +77,7 @@
             }
 
             .btn {
-                background-color: #4CAF50;
+                background-color: #0646c5ff;
                 color: white;
                 padding: 12px 30px;
                 border: none;
@@ -90,7 +90,7 @@
             }
 
             .btn:hover {
-                background-color: #45a049;
+                background-color: #0338a1ff;
                 color: white;
             }
         </style>
@@ -110,7 +110,7 @@
                 Vui lòng liên hệ quản trị viên nếu bạn cho rằng đây là lỗi.
             </p>
             <a href="<?= url('/') ?>" class="btn">Về trang chủ</a>
-            <a href="<?= url('/login') ?>" class="btn">Đăng nhập</a>
+            <!-- <a href="<?= url('/login') ?>" class="btn">Đăng nhập</a> -->
         </div>
     </body>
 

@@ -1,10 +1,12 @@
 <?php
+
 /**
  * 404 Not Found Page
  */
 ?>
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,14 +18,33 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0646c5ff 0%, #5e8ae3ff 100%);
         }
-        .error-container { text-align: center; color: white; }
-        .error-code { font-size: 150px; font-weight: bold; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
-        .error-message { font-size: 24px; margin-bottom: 30px; }
-        .btn-home { padding: 15px 40px; font-size: 18px; border-radius: 50px; }
+
+        .error-container {
+            text-align: center;
+            color: white;
+        }
+
+        .error-code {
+            font-size: 150px;
+            font-weight: bold;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .error-message {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        .btn-home {
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 50px;
+        }
     </style>
 </head>
+
 <body>
     <div class="error-container">
         <div class="error-code">404</div>
@@ -34,4 +55,5 @@
     </div>
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"></script>
 </body>
+
 </html>

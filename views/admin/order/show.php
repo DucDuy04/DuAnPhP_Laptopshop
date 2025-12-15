@@ -64,13 +64,13 @@ require_once __DIR__ . '/../layout/sidebar.php';
                                     </td>
                                     <td>
                                         <a href="<?= url('/admin/order/' . $order['id']) ?>" class="btn btn-info btn-sm" title="Xem chi tiết">
-                                            Xem<i class="fas fa-eye"></i>
+                                            <i class="fas fa-eye"></i>
                                         </a>
                                         <a href="<?= url('/admin/order/update/' . $order['id']) ?>" class="btn btn-warning btn-sm" title="Cập nhật">
-                                            Sửa<i class="fas fa-edit"></i>
+                                            <i class="fas fa-edit"></i>
                                         </a>
                                         <a href="<?= url('/admin/order/delete/' . $order['id']) ?>" class="btn btn-danger btn-sm" title="Xóa">
-                                            Xóa <i class="fas fa-trash"></i>
+                                            <i class="fas fa-trash"></i>
                                         </a>
                                     </td>
                                 </tr>
