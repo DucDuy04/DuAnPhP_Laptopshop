@@ -1,17 +1,10 @@
 <?php
 
-/**
- * Homepage View (hero carousel đã gộp trực tiếp)
- * - Hero carousel + thumbnails (dùng Bootstrap 5)
- * - Nếu $heroImages không được cung cấp từ controller, file sẽ dùng ảnh mặc định
- *
- * Lưu ý: footer.php cần include bootstrap.bundle.min.js để carousel hoạt động.
- */
+
 
 require_once __DIR__ . '/../layout/header.php';
 
-// Nếu controller cung cấp $products và $heroImages thì sẽ dùng, nếu không sẽ fallback vào mặc định.
-// Example fallback hero images
+
 $heroImages = $heroImages ?? [
     ['url' => 'public/image/product/hero-img-1.png', 'alt' => 'Laptop 1'],
     ['url' => 'public/image/product/1711078452562-dell-01.png', 'alt' => 'Laptop 2'],
@@ -219,7 +212,7 @@ $carouselId = 'heroCarousel';
     }
 </style>
 
-<!-- Hero JS: wire thumbnails -> carousel (run after window load to ensure bootstrap is available) -->
+
 <script>
     (function() {
         window.addEventListener('load', function() {

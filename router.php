@@ -1,7 +1,6 @@
 <?php
 
 /**
- * Router cho PHP Built-in Server
  * Xử lý static files và routing
  
  *  File tĩnh → server trả thẳng

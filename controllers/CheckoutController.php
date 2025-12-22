@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Checkout Controller
- * Tương đương ItemController.java - phần checkout
- */
+
 
 require_once __DIR__ . '/../core/Controller.php';
 require_once __DIR__ . '/../models/Cart.php';
@@ -31,10 +28,7 @@ class CheckoutController extends Controller
         $this->productModel = new Product();
     }
 
-    /**
-     * Trang checkout
-     * Tương đương @GetMapping("/checkout")
-     */
+
     public function index()
     {
         requireLogin();
@@ -57,10 +51,6 @@ class CheckoutController extends Controller
         ]);
     }
 
-    /**
-     * Đặt hàng
-     * Tương đương @PostMapping("/place-order")
-     */
     public function placeOrder()
     {
         requireLogin();
@@ -88,7 +78,6 @@ class CheckoutController extends Controller
 
         if (! empty($errors)) {
             Session::setErrors($errors);
-            // Preserve submitted values so the form can be repopulated after redirect
             Session::setOldInput([
                 'receiverName' => $receiverName,
                 'receiverPhone' => $receiverPhone,
@@ -135,10 +124,7 @@ class CheckoutController extends Controller
         $this->redirect('/thanks');
     }
 
-    /**
-     * Trang cảm ơn
-     * Tương đương @GetMapping("/thanks")
-     */
+
     public function thanks()
     {
         requireLogin();
@@ -148,10 +134,7 @@ class CheckoutController extends Controller
         ]);
     }
 
-    /**
-     * Lịch sử đơn hàng
-     * Tương đương @GetMapping("/order-history")
-     */
+
     public function orderHistory()
     {
         requireLogin();
@@ -169,10 +152,7 @@ class CheckoutController extends Controller
         ]);
     }
 
-    /**
-     * Hiển thị chi tiết đơn hàng cho client
-     * GET /order/{id}
-     */
+
     public function showOrder($orderId)
     {
         requireLogin();

@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Admin Product List View
- * Tương đương admin/product/show.jsp
- */
+
 require_once __DIR__ . '/../layout/header.php';
 require_once __DIR__ . '/../layout/sidebar.php';
 ?>

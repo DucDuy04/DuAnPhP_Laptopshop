@@ -1,8 +1,6 @@
     <?php
 
     /**
-     * Base Controller Class
-     * Tương đương @Controller trong Spring MVC
      * Cung cấp các hàm dùng chung
      * Tránh lặp code
 
@@ -10,12 +8,7 @@
 
     class Controller
     {
-
-        /**
-         * Render view - tương đương return "viewName" trong Spring
-         */
         // Hàm hiển thị view với dữ liệu truyền vào
-
         protected function view($viewPath, $data = [])
         {
             // Extract data để dùng trong view
@@ -39,9 +32,6 @@
             }
         }
 
-        /**
-         * Redirect - tương đương return "redirect:/path"
-         */
         // Hàm chuyển hướng trang
         protected function redirect($path)
         {
@@ -50,9 +40,6 @@
             exit;
         }
 
-        /**
-         * Return JSON - tương đương @ResponseBody
-         */
         // Hàm trả về dữ liệu JSON
         protected function json($data, $statusCode = 200)
         {
@@ -65,9 +52,6 @@
             exit;
         }
 
-        /**
-         * Get POST data - tương đương @RequestParam
-         */
         // Hàm lấy dữ liệu từ phương thức POST
         // Nếu không truyền key, trả về toàn bộ mảng $_POST
         protected function input($key = null, $default = null)
@@ -80,9 +64,6 @@
             return $_POST[$key] ?? $default;
         }
 
-        /**
-         * Get GET data - tương đương @RequestParam
-         */
         // Hàm lấy dữ liệu từ phương thức GET
         protected function query($key = null, $default = null)
         {
@@ -94,9 +75,6 @@
             return $_GET[$key] ?? $default;
         }
 
-        /**
-         * Check request method
-         */
         // Hàm kiểm tra phương thức request hiện tại
         protected function isPost()
         {
@@ -109,9 +87,8 @@
             return $_SERVER['REQUEST_METHOD'] === 'GET';
         }
 
-        /**
-         * Set flash message - tương đương RedirectAttributes
-         */
+
+        // Cần thêm session_start() trước khi gọi
         // Hàm thiết lập flash message
         // Flash message chỉ tồn tại trong một request
         // Sau khi lấy sẽ bị xóa
@@ -122,9 +99,6 @@
             $_SESSION['flash'][$key] = $message;
         }
 
-        /**
-         * Get and clear flash message
-         */
         // Hàm lấy và xóa flash message
         // Ví dụ: echo getFlash('success');
         // Sau khi gọi hàm này, flash message sẽ bị xóa khỏi session
@@ -133,21 +107,5 @@
             $message = $_SESSION['flash'][$key] ?? null;
             unset($_SESSION['flash'][$key]);
             return $message;
-        }
-
-        /**
-         * Validate CSRF token
-         */
-        // Hàm kiểm tra CSRF token
-        // Nếu không hợp lệ, trả về lỗi JSON 403
-        protected function validateCsrf()
-        {
-            // Chỉ kiểm tra với POST request
-            $token = $_POST['_csrf_token'] ?? '';
-            // Nếu không tồn tại token trong session hoặc không khớp
-            if (!isset($_SESSION['csrf_token']) || $token !== $_SESSION['csrf_token']) {
-                // Trả về lỗi JSON 403
-                $this->json(['error' => 'Invalid CSRF token'], 403);
-            }
         }
     }

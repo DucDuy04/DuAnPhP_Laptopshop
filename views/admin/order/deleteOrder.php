@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Admin Delete Order View
- * Tương đương admin/order/deleteOrder.jsp
- */
+
 require_once __DIR__ . '/../layout/header.php';
 require_once __DIR__ . '/../layout/sidebar.php';
 ?>
@@ -30,7 +27,7 @@ require_once __DIR__ . '/../layout/sidebar.php';
                         </div>
 
                         <form method="POST" action="<?= url('/admin/order/delete/' . $id) ?>">
-                            <?= Csrf::field() ?>
+                            <?= Csrf::field() ?> <!-- //Token CSRF để bảo vệ form -->
                             <input type="hidden" name="id" value="<?= $id ?>">
 
                             <div class="d-flex gap-2">

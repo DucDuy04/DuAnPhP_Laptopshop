@@ -1,8 +1,5 @@
 <?php
-/**
- * Home Controller
- * Tương đương HomePageController.java
- */
+
 
 require_once __DIR__ . '/../core/Controller.php';
 require_once __DIR__ . '/../models/Product.php';
@@ -17,10 +14,7 @@ class HomeController extends Controller
         $this->productModel = new Product();
     }
 
-    /**
-     * Trang chủ
-     * Tương đương @GetMapping("/")
-     */
+
     public function index()
     {
         // Lấy 10 sản phẩm mới nhất

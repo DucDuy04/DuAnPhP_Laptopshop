@@ -1,8 +1,6 @@
 <?php
 
-/**
- * 404 Not Found Page
- */
+
 ?>
 <!DOCTYPE html>
 <html lang="vi">

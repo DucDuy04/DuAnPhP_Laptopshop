@@ -1,8 +1,6 @@
 <?php
 
-/**
- * Admin Update Product View
- */
+
 require_once __DIR__ . '/../layout/header.php';
 require_once __DIR__ . '/../layout/sidebar.php';
 ?>
@@ -48,19 +46,19 @@ require_once __DIR__ . '/../layout/sidebar.php';
 
                     <div class="mb-3">
                         <label class="form-label">Mô tả ngắn *</label>
-                        <input type="text" name="short_desc"
-                            class="form-control <?= Session::hasError('short_desc') ? 'is-invalid' : '' ?>"
-                            value="<?= e(Session::getOldInput('short_desc', $product['short_desc'])) ?>">
-                        <?php if ($error = Session::getError('short_desc')): ?>
+                        <input type="text" name="shortDesc"
+                            class="form-control <?= Session::hasError('shortDesc') ? 'is-invalid' : '' ?>"
+                            value="<?= e(Session::getOldInput('shortDesc', $product['short_desc'])) ?>">
+                        <?php if ($error = Session::getError('shortDesc')): ?>
                             <div class="invalid-feedback"><?= e($error) ?></div>
                         <?php endif; ?>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Mô tả chi tiết *</label>
-                        <textarea name="detail_desc" rows="5"
-                            class="form-control <?= Session::hasError('detail_desc') ? 'is-invalid' : '' ?>"><?= e(Session::getOldInput('detail_desc', $product['detail_desc'])) ?></textarea>
-                        <?php if ($error = Session::getError('detail_desc')): ?>
+                        <textarea name="detailDesc" rows="5"
+                            class="form-control <?= Session::hasError('detailDesc') ? 'is-invalid' : '' ?>"><?= e(Session::getOldInput('detailDesc', $product['detail_desc'])) ?></textarea>
+                        <?php if ($error = Session::getError('detailDesc')): ?>
                             <div class="invalid-feedback"><?= e($error) ?></div>
                         <?php endif; ?>
                     </div>

@@ -1,8 +1,6 @@
 <?php
 
-/**
- * 403 Forbidden Page
- */
+
 ?>
 <!DOCTYPE html>
 <html lang="vi">

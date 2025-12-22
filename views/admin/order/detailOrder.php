@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Admin Order Detail View
- * Tương đương admin/order/detailorder.jsp
- */
+
 require_once __DIR__ . '/../layout/header.php';
 require_once __DIR__ . '/../layout/sidebar.php';
 ?>

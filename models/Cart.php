@@ -1,8 +1,6 @@
 <?php
 
 /**
- * Cart Model
- * Tương đương Cart.java + CartRepository.java
  * 
  * Table: carts
  * Relationships: 
@@ -16,21 +14,17 @@ class Cart extends Model
 {
     protected $table = 'carts';
 
-    /**
-     * Tìm cart theo user_id
-     * Tương đương findByUser() trong CartRepository
-     */
+    // Lấy giỏ hàng theo user_id
     public function findByUserId($userId)
     {
         $sql = "SELECT * FROM {$this->table} WHERE user_id = :user_id LIMIT 1";
         return $this->queryOne($sql, ['user_id' => $userId]);
     }
 
-    /**
-     * Lấy hoặc tạo cart cho user
-     */
+    // Lấy giỏ hàng của user, nếu chưa có thì tạo mới
     public function getOrCreateCart($userId)
     {
+        //Kiểm tra user da có cart chưa
         $cart = $this->findByUserId($userId);
 
         if (!$cart) {
@@ -44,9 +38,8 @@ class Cart extends Model
         return $cart;
     }
 
-    /**
-     * Cập nhật tổng số lượng sản phẩm trong cart
-     */
+
+    // Cập nhật tổng số lượng trong giỏ hàng
     public function updateSum($cartId)
     {
         $sql = "UPDATE {$this->table} 
@@ -56,10 +49,7 @@ class Cart extends Model
         return $stmt->execute(['cart_id' => $cartId, 'id' => $cartId]);
     }
 
-    /**
-     * Lấy cart với chi tiết sản phẩm
-     * Tương đương cart.getCartDetails() trong Java
-     */
+    // Lấy giỏ hàng cùng với chi tiết sản phẩm
     public function getCartWithDetails($userId)
     {
         $cart = $this->findByUserId($userId);
@@ -73,7 +63,9 @@ class Cart extends Model
                 JOIN products p ON cd.product_id = p.id
                 WHERE cd.cart_id = :cart_id";
 
-        $cart['items'] = $this->query($sql, ['cart_id' => $cart['id']]);
+        $cart['items'] = $this->query($sql, ['cart_id' => $cart['id']]); //gán giá trị $cart['id'] vào :cart_id
+        //Nếu $cart['id'] = 5
+        //Khi thực thi SQL → cd.cart_id = 5
 
         // Tính tổng tiền
         $cart['total_price'] = array_reduce($cart['items'], function ($sum, $item) {
@@ -83,9 +75,7 @@ class Cart extends Model
         return $cart;
     }
 
-    /**
-     * Xóa toàn bộ items trong cart
-     */
+    // Xóa giỏ hàng
     public function clearCart($cartId)
     {
         $sql = "DELETE FROM cart_detail WHERE cart_id = :cart_id";

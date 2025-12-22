@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Thanks / Order Success View
- * Tương đương client/cart/thanks.jsp
- */
+
 require_once __DIR__ . '/../layout/header.php';
 ?>
 

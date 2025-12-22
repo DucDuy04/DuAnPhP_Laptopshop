@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Session Management
- * Tương đương Spring Session
- */
+
 
 class Session
 {
@@ -18,7 +15,7 @@ class Session
             ini_set('session.cookie_httponly', 1);
             ini_set('session.use_only_cookies', 1);
             ini_set('session.cookie_secure', isset($_SERVER['HTTPS'])); // HTTPS only
-            ini_set('session. cookie_samesite', 'Lax');
+            ini_set('session.cookie_samesite', 'Lax');
             ini_set('session.gc_maxlifetime', SESSION_LIFETIME);
 
             session_name(SESSION_NAME);
@@ -32,9 +29,7 @@ class Session
         }
     }
 
-    /**
-     * Kiểm tra session timeout
-     */
+    //Kiểm tra timeout của session
     private static function checkTimeout()
     {
         if (isset($_SESSION['last_activity'])) {
@@ -47,9 +42,7 @@ class Session
         $_SESSION['last_activity'] = time();
     }
 
-    /**
-     * Regenerate session ID định kỳ (mỗi 30 phút)
-     */
+    //Regenerate session id định kì
     private static function regenerateIfNeeded()
     {
         if (! isset($_SESSION['created'])) {
@@ -60,42 +53,31 @@ class Session
         }
     }
 
-    /**
-     * Lấy giá trị từ session
-     */
+    //Lấy giá trị từ session
     public static function get($key, $default = null)
     {
         return $_SESSION[$key] ?? $default;
     }
 
-    /**
-     * Set giá trị vào session
-     */
+    //Set giá trị vào session
     public static function set($key, $value)
     {
         $_SESSION[$key] = $value;
     }
 
-    /**
-     * Kiểm tra key có tồn tại không
-     */
+    //Kiểm tra key có tồn tại trong session không
     public static function has($key)
     {
         return isset($_SESSION[$key]);
     }
 
-    /**
-     * Xóa một key khỏi session
-     */
+    //Xóa một key khỏi session
     public static function remove($key)
     {
         unset($_SESSION[$key]);
     }
 
-    /**
-     * Flash message - lưu message và tự động xóa sau khi đọc
-     * Tương đương RedirectAttributes. addFlashAttribute() trong Spring
-     */
+    // Thiết lập hoặc lấy flash message
     public static function flash($key, $message = null)
     {
         if ($message === null) {
@@ -109,26 +91,19 @@ class Session
         }
     }
 
-    /**
-     * Kiểm tra có flash message không
-     */
+    // Kiểm tra xem có flash message không
     public static function hasFlash($key)
     {
         return isset($_SESSION['flash'][$key]);
     }
 
-    /**
-     * Lưu old input (để repopulate form sau khi validation fail)
-     * Tương đương BindingResult trong Spring
-     */
+    // Thiết lập old input
     public static function setOldInput($data)
     {
         $_SESSION['old_input'] = $data;
     }
 
-    /**
-     * Lấy old input
-     */
+    // Lấy old input
     public static function getOldInput($key = null, $default = '')
     {
         if ($key === null) {
@@ -137,74 +112,56 @@ class Session
         return $_SESSION['old_input'][$key] ?? $default;
     }
 
-    /**
-     * Xóa old input
-     */
+    // Xóa old input
     public static function clearOldInput()
     {
         unset($_SESSION['old_input']);
     }
 
-    /**
-     * Set validation errors
-     */
+    // Thiết lập validation errors
     public static function setErrors($errors)
     {
         $_SESSION['errors'] = $errors;
     }
 
-    /**
-     * Get validation error
-     */
+    // Lấy lỗi của một trường
     public static function getError($key)
     {
         return $_SESSION['errors'][$key] ?? null;
     }
 
-    /**
-     * Get all errors
-     */
+    // Lấy tất cả lỗi
     public static function getErrors()
     {
         return $_SESSION['errors'] ?? [];
     }
 
-    /**
-     * Check if has error
-     */
+    // Kiểm tra xem có lỗi của một trường không
     public static function hasError($key)
     {
         return isset($_SESSION['errors'][$key]);
     }
 
-    /**
-     * Check if has any errors
-     */
+    // Kiểm tra xem có lỗi validation không
     public static function hasErrors()
     {
         return !empty($_SESSION['errors']);
     }
 
-    /**
-     * Clear all errors
-     */
+    // Xóa tất cả lỗi validation
     public static function clearErrors()
     {
         unset($_SESSION['errors']);
     }
 
-    /**
-     * Clear validation data (errors + old input)
-     */
+    // Xóa cả lỗi validation và old input
     public static function clearValidation()
     {
         self::clearErrors();
         self::clearOldInput();
     }
 
-    /**
-     * Hủy session hoàn toàn
-     */
+    // Hủy toàn bộ session
     public static function destroy()
     {
         $_SESSION = [];
@@ -216,9 +173,7 @@ class Session
         session_destroy();
     }
 
-    /**
-     * Lấy tất cả session data (debug)
-     */
+    // Lấy tất cả dữ liệu trong session
     public static function all()
     {
         return $_SESSION;

@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Admin Create User View
- * Tương đương admin/user/create. jsp
- */
+
 require_once __DIR__ . '/../layout/header.php';
 require_once __DIR__ . '/../layout/sidebar.php';
 ?>

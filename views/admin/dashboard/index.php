@@ -1,8 +1,5 @@
 <?php
-/**
- * Admin Dashboard View
- * Tương đương admin/dashboard/show.jsp
- */
+
 require_once __DIR__ . '/../layout/header.php';
 require_once __DIR__ . '/../layout/sidebar.php';
 ?>
@@ -13,7 +10,7 @@ require_once __DIR__ . '/../layout/sidebar.php';
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item active">Dashboard</li>
         </ol>
-        
+
         <!-- Stats Cards -->
         <div class="row">
             <div class="col-xl-3 col-md-6">
@@ -33,7 +30,7 @@ require_once __DIR__ . '/../layout/sidebar.php';
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-xl-3 col-md-6">
                 <div class="card bg-warning text-white mb-4">
                     <div class="card-body">
@@ -51,7 +48,7 @@ require_once __DIR__ . '/../layout/sidebar.php';
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-xl-3 col-md-6">
                 <div class="card bg-success text-white mb-4">
                     <div class="card-body">
@@ -69,7 +66,7 @@ require_once __DIR__ . '/../layout/sidebar.php';
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-xl-3 col-md-6">
                 <div class="card bg-danger text-white mb-4">
                     <div class="card-body">
@@ -88,7 +85,7 @@ require_once __DIR__ . '/../layout/sidebar.php';
                 </div>
             </div>
         </div>
-        
+
         <!-- Order Stats -->
         <div class="row">
             <div class="col-xl-6">
@@ -115,7 +112,7 @@ require_once __DIR__ . '/../layout/sidebar.php';
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-xl-6">
                 <div class="card mb-4">
                     <div class="card-header">

@@ -11,7 +11,6 @@ try {
 
     $db = Database::getInstance()->getConnection();
 
-    // Kiểm tra xem database hiện tại đã có bảng chưa — nếu có, abort để tránh ghi đè dữ liệu
     try {
         $stmtCheck = $db->prepare("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = :schema");
         $stmtCheck->execute([':schema' => DB_NAME]);
@@ -235,9 +234,9 @@ try {
     echo "<li>Admin: <strong>admin@gmail.com</strong> / <strong>123456</strong></li>";
     echo "<li>User: <strong>user@gmail.com</strong> / <strong>123456</strong></li>";
     echo "</ul>";
-    echo "<p><a href='/login'>👉 Đăng nhập ngay</a></p>";
+    echo "<p><a href='/login'> Đăng nhập ngay</a></p>";
     echo "<hr>";
-    echo "<p style='color:red;'><strong>⚠️ XÓA file laptopshop.php sau khi hoàn tất! </strong></p>";
+    echo "<p style='color:red;'><strong> XÓA file laptopshop.php sau khi hoàn tất! </strong></p>";
 } catch (Exception $e) {
     // Nếu có transaction đang mở, rollback để không để DB ở trạng thái nửa vời
     if (isset($db) && $db->inTransaction()) {

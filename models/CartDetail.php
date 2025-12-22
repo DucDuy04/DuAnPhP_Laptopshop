@@ -1,7 +1,6 @@
 <?php
+
 /**
- * CartDetail Model
- * Tương đương CartDetail.java + CartDetailRepository.java
  * 
  * Table: cart_detail
  * Relationships:
@@ -15,9 +14,7 @@ class CartDetail extends Model
 {
     protected $table = 'cart_detail';
 
-    /**
-     * Tìm item trong cart theo cart_id và product_id
-     */
+    // Lấy item trong cart theo cart_id và product_id
     public function findByCartAndProduct($cartId, $productId)
     {
         $sql = "SELECT * FROM {$this->table} 
@@ -29,9 +26,7 @@ class CartDetail extends Model
         ]);
     }
 
-    /**
-     * Lấy tất cả items trong cart
-     */
+    // Lấy tất cả items trong cart theo cart_id
     public function findByCartId($cartId)
     {
         $sql = "SELECT cd.*, p.name, p. image, p.price as product_price
@@ -41,20 +36,18 @@ class CartDetail extends Model
         return $this->query($sql, ['cart_id' => $cartId]);
     }
 
-    /**
-     * Thêm sản phẩm vào cart
-     */
+    // Thêm sản phẩm vào giỏ hàng
     public function addToCart($cartId, $productId, $price, $quantity = 1)
     {
-        // Check if product already in cart
+
         $existing = $this->findByCartAndProduct($cartId, $productId);
 
         if ($existing) {
-            // Update quantity
+            // Cập nhật số lượng nếu đã có
             $newQty = $existing['quantity'] + $quantity;
             return $this->update($existing['id'], ['quantity' => $newQty]);
         } else {
-            // Add new item
+            // Thêm sản phẩm mới
             return $this->create([
                 'cart_id' => $cartId,
                 'product_id' => $productId,
@@ -64,9 +57,7 @@ class CartDetail extends Model
         }
     }
 
-    /**
-     * Cập nhật số lượng
-     */
+    // Cập nhật số lượng sản phẩm trong giỏ hàng
     public function updateQuantity($id, $quantity)
     {
         if ($quantity <= 0) {
@@ -75,9 +66,7 @@ class CartDetail extends Model
         return $this->update($id, ['quantity' => $quantity]);
     }
 
-    /**
-     * Xóa item khỏi cart
-     */
+    // Xóa sản phẩm khỏi giỏ hàng
     public function removeFromCart($cartId, $productId)
     {
         $sql = "DELETE FROM {$this->table} WHERE cart_id = :cart_id AND product_id = :product_id";
@@ -85,12 +74,11 @@ class CartDetail extends Model
         return $stmt->execute([
             'cart_id' => $cartId,
             'product_id' => $productId
+
         ]);
     }
 
-    /**
-     * Xóa tất cả items trong cart
-     */
+    // Xóa tất cả items trong giỏ hàng
     public function clearByCartId($cartId)
     {
         $sql = "DELETE FROM {$this->table} WHERE cart_id = :cart_id";
@@ -98,9 +86,7 @@ class CartDetail extends Model
         return $stmt->execute(['cart_id' => $cartId]);
     }
 
-    /**
-     * Đếm số lượng items trong cart
-     */
+    // Đếm số lượng item trong giỏ hàng
     public function countByCartId($cartId)
     {
         $sql = "SELECT COUNT(*) as count FROM {$this->table} WHERE cart_id = :cart_id";

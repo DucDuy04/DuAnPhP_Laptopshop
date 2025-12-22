@@ -1,9 +1,5 @@
 <?php
 
-/**
- * Admin User Controller
- * Tương đương UserController.java
- */
 
 require_once __DIR__ . '/../../core/Controller.php';
 require_once __DIR__ . '/../../models/User.php';
@@ -29,10 +25,7 @@ class UserController extends Controller
         $this->uploadService = new UploadService();
     }
 
-    /**
-     * Danh sách users
-     * Tương đương @RequestMapping("/admin/user")
-     */
+    //Danh sách user
     public function index()
     {
         $page = (int)($this->query('page', 1));
@@ -46,10 +39,6 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Chi tiết user
-     * Tương đương @RequestMapping("/admin/user/{id}")
-     */
     public function show($id)
     {
         $user = $this->userModel->findByIdWithRole($id);
@@ -65,10 +54,6 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Form tạo user
-     * Tương đương @GetMapping("/admin/user/create")
-     */
     public function create()
     {
         $roles = $this->roleModel->findAll();
@@ -79,10 +64,7 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Xử lý tạo user
-     * Tương đương @PostMapping("/admin/user/create")
-     */
+    // Xử lý tạo user
     public function store()
     {
         // Validate
@@ -115,10 +97,7 @@ class UserController extends Controller
         $this->redirect('/admin/user');
     }
 
-    /**
-     * Form cập nhật user
-     * Tương đương @RequestMapping("/admin/user/update/{id}")
-     */
+    // Form cập nhật user
     public function edit($id)
     {
         $user = $this->userModel->findByIdWithRole($id);
@@ -136,10 +115,7 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Xử lý cập nhật user
-     * Tương đương @PostMapping("/admin/user/update")
-     */
+    // Xử lý cập nhật user
     public function update($id)
     {
         // Validate
@@ -189,10 +165,7 @@ class UserController extends Controller
         $this->redirect('/admin/user');
     }
 
-    /**
-     * Form xác nhận xóa
-     * Tương đương @GetMapping("/admin/user/delete/{id}")
-     */
+
     public function confirmDelete($id)
     {
         $user = $this->userModel->findById($id);
@@ -208,10 +181,7 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Xử lý xóa user
-     * Tương đương @PostMapping("/admin/user/delete")
-     */
+    // Xử lý xóa user
     public function delete($id)
     {
         $user = $this->userModel->findById($id);

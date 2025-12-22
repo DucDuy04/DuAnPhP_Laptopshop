@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Product Detail View
- * Cập nhật để khớp với database Java
- */
+
 require_once __DIR__ . '/../layout/header.php';
 ?>
 

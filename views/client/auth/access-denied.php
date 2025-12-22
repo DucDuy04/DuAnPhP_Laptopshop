@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Access Denied View
- * Tương đương client/auth/access-denied. jsp
- */
+
 ?>
 <! DOCTYPE html>
     <html lang="vi">

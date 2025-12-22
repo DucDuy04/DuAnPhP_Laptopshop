@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Order History View
- * Tương đương client/cart/order-history.jsp
- */
+
 require_once __DIR__ . '/../layout/header.php';
 ?>
 

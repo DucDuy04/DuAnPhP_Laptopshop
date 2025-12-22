@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Cart View
- * Tương đương client/cart/show.jsp
- */
+
 require_once __DIR__ . '/../layout/header.php';
 ?>
 
@@ -92,9 +89,8 @@ require_once __DIR__ . '/../layout/header.php';
 </div>
 
 <?php require_once __DIR__ . '/../layout/footer.php'; ?>
-
+<!-- Cập nhật giỏ hàng KHÔNG reload trang -->
 <script>
-    // Auto-update cart via AJAX (debounced)
     (function() {
         var form = document.getElementById('cart-update-form');
         if (!form) return;

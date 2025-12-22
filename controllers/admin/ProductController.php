@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Admin Product Controller
- * Tương đương ProductController.java (admin)
- */
+
 
 require_once __DIR__ . '/../../core/Controller.php';
 require_once __DIR__ . '/../../models/Product.php';
@@ -26,10 +23,7 @@ class ProductController extends Controller
         $this->uploadService = new UploadService();
     }
 
-    /**
-     * Danh sách products
-     * Tương đương @GetMapping("/admin/product")
-     */
+
     public function index()
     {
         $page = (int)($this->query('page', 1));
@@ -43,10 +37,7 @@ class ProductController extends Controller
         ]);
     }
 
-    /**
-     * Chi tiết product
-     * Tương đương @GetMapping("/admin/product/{id}")
-     */
+
     public function show($id)
     {
         $product = $this->productModel->findById($id);
@@ -62,10 +53,7 @@ class ProductController extends Controller
         ]);
     }
 
-    /**
-     * Form tạo product
-     * Tương đương @GetMapping("/admin/product/create")
-     */
+
     public function create()
     {
         $this->view('admin/product/create', [
@@ -73,10 +61,7 @@ class ProductController extends Controller
         ]);
     }
 
-    /**
-     * Xử lý tạo product
-     * Tương đương @PostMapping("/admin/product/create")
-     */
+    // Xử lý tạo product
     public function store()
     {
         // Validate
@@ -111,10 +96,7 @@ class ProductController extends Controller
         $this->redirect('/admin/product');
     }
 
-    /**
-     * Form cập nhật product
-     * Tương đương @GetMapping("/admin/product/update/{id}")
-     */
+
     public function edit($id)
     {
         $product = $this->productModel->findById($id);
@@ -130,10 +112,7 @@ class ProductController extends Controller
         ]);
     }
 
-    /**
-     * Xử lý cập nhật product
-     * Tương đương @PostMapping("/admin/product/update/{id}")
-     */
+
     public function update($id)
     {
         // Validate
@@ -173,17 +152,20 @@ class ProductController extends Controller
             }
         }
 
-        $this->productModel->update($id, $data);
+        $ok = $this->productModel->update($id, $data);
 
-        Session::clearValidation();
-        Session::flash('success', 'Cập nhật sản phẩm thành công!');
+        if ($ok) {
+            Session::clearValidation();
+            Session::flash('success', 'Cập nhật sản phẩm thành công!');
+        } else {
+            error_log('Product update failed for id: ' . $id . ' with data: ' . json_encode($data));
+            Session::flash('error', 'Cập nhật sản phẩm thất bại, vui lòng thử lại.');
+        }
+
         $this->redirect('/admin/product');
     }
 
-    /**
-     * Form xác nhận xóa
-     * Tương đương @GetMapping("/admin/product/delete/{id}")
-     */
+
     public function confirmDelete($id)
     {
         $product = $this->productModel->findById($id);
@@ -199,10 +181,7 @@ class ProductController extends Controller
         ]);
     }
 
-    /**
-     * Xử lý xóa product
-     * Tương đương @PostMapping("/admin/product/delete")
-     */
+
     public function delete()
     {
         $id = $this->input('id');

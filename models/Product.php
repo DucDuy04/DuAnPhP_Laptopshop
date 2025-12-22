@@ -1,8 +1,11 @@
 <?php
 
-/**
- * Product Model
- * Cập nhật để khớp với database Java
+/*
+Model Product - Quản lý sản phẩm
+Table: products
+* Relationships:
+*   - Product (N) -> (N) OrderDetail
+
  */
 
 require_once __DIR__ . '/../core/Model.php';
@@ -11,45 +14,35 @@ class Product extends Model
 {
     protected $table = 'products';
 
-    /**
-     * Tìm kiếm sản phẩm theo tên
-     */
+    // Tìm kiếm sản phẩm theo tên
     public function searchByName($keyword)
     {
         $sql = "SELECT * FROM {$this->table} WHERE name LIKE :keyword";
         return $this->query($sql, ['keyword' => '%' . $keyword . '%']);
     }
 
-    /**
-     * Lọc sản phẩm theo factory (hãng)
-     */
+    // Lọc sản phẩm theo hãng sản xuất
     public function findByFactory($factory)
     {
         $sql = "SELECT * FROM {$this->table} WHERE factory = :factory";
         return $this->query($sql, ['factory' => $factory]);
     }
 
-    /**
-     * Lọc sản phẩm theo target (đối tượng)
-     */
+    // Lọc sản phẩm theo target 
     public function findByTarget($target)
     {
         $sql = "SELECT * FROM {$this->table} WHERE target = :target";
         return $this->query($sql, ['target' => $target]);
     }
 
-    /**
-     * Lọc sản phẩm theo khoảng giá
-     */
+    // Lọc sản phẩm theo khoảng giá
     public function findByPriceRange($minPrice, $maxPrice)
     {
         $sql = "SELECT * FROM {$this->table} WHERE price BETWEEN :min AND :max";
         return $this->query($sql, ['min' => $minPrice, 'max' => $maxPrice]);
     }
 
-    /**
-     * Lấy sản phẩm với nhiều điều kiện lọc + phân trang
-     */
+    // Tìm sản phẩm với nhiều bộ lọc, phân trang và sắp xếp
     public function findWithFilters($filters = [], $page = 1, $perPage = 10)
     {
         $offset = ($page - 1) * $perPage;
@@ -146,27 +139,21 @@ class Product extends Model
         ];
     }
 
-    /**
-     * Lấy danh sách hãng sản xuất unique
-     */
+    // Lấy danh sách factory unique
     public function getFactories()
     {
         $sql = "SELECT DISTINCT factory FROM {$this->table} WHERE factory IS NOT NULL";
         return array_column($this->query($sql), 'factory');
     }
 
-    /**
-     * Lấy danh sách target unique
-     */
+    // Lấy danh sách target unique
     public function getTargets()
     {
         $sql = "SELECT DISTINCT target FROM {$this->table} WHERE target IS NOT NULL";
         return array_column($this->query($sql), 'target');
     }
 
-    /**
-     * Cập nhật số lượng đã bán
-     */
+    // Cập nhật số lượng đã bán và tồn kho
     public function updateSold($id, $quantity)
     {
         $sql = "UPDATE {$this->table} SET sold = sold + :quantity1, quantity = quantity - :quantity2 WHERE id = :id";
@@ -174,9 +161,7 @@ class Product extends Model
         return $stmt->execute(['quantity1' => $quantity, 'quantity2' => $quantity, 'id' => $id]);
     }
 
-    /**
-     * Giảm số lượng tồn kho
-     */
+    // Giảm số lượng tồn kho khi đặt hàng
     public function decreaseQuantity($id, $amount)
     {
         $sql = "UPDATE {$this->table} SET quantity = quantity - :amount WHERE id = :id AND quantity >= :amount";

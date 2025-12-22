@@ -1,7 +1,7 @@
 # Enable URL Rewriting
 RewriteEngine On
 
-# Set base directory (thay đổi nếu cần)
+# Set base directory
 # RewriteBase /laptopshop-php/
 
 # Redirect all requests to index.php except existing files/folders

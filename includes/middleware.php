@@ -1,8 +1,7 @@
 <?php
 
 /**
- * Middleware System
- * Tương đương SecurityFilterChain trong Spring Security
+điều kiện, kiểm soát quyền truy cập ở mỗi request.
  */
 
 require_once __DIR__ . '/auth.php';
@@ -11,10 +10,7 @@ require_once __DIR__ . '/csrf.php';
 class Middleware
 {
 
-    /**
-     * Danh sách các route public (không cần đăng nhập)
-     * Tương đương . permitAll() trong Spring Security
-     */
+    // Danh sách các route public (không cần đăng nhập)
     private static $publicRoutes = [
         '/',
         '/login',
@@ -24,18 +20,13 @@ class Middleware
         '/access-denied',
     ];
 
-    /**
-     * Danh sách các route chỉ dành cho Admin
-     * Tương đương . hasRole("ADMIN")
-     */
+    // Danh sách các route chỉ dành cho Admin
     private static $adminRoutes = [
         '/admin',
         '/admin/*',
     ];
 
-    /**
-     * Danh sách các route chỉ dành cho User đã đăng nhập
-     */
+    // Danh sách các route yêu cầu đăng nhập
     private static $authRoutes = [
         '/cart',
         '/checkout',
@@ -44,26 +35,24 @@ class Middleware
         '/thanks',
     ];
 
-    /**
-     * Chạy middleware
-     * Gọi hàm này ở đầu index.php
-     */
+
+    // Hàm xử lý middleware
     public static function handle()
     {
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-        // Remove base path
+        // Loại bỏ base path nếu có
         $basePath = '/laptopshop-php';
         if (strpos($uri, $basePath) === 0) {
             $uri = substr($uri, strlen($basePath)) ?: '/';
         }
 
-        // 1. CSRF Validation cho POST requests
+        // 1. CSRF Protection cho các POST requests
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             Csrf::validateOrFail();
         }
 
-        // 2. Check Admin routes
+        // 2. Check Admin routes (user phải là admin)
         if (self::matchRoute($uri, self::$adminRoutes)) {
             Auth::requireAdmin();
             return;
@@ -74,13 +63,8 @@ class Middleware
             Auth::requireLogin();
             return;
         }
-
-        // 4. Public routes - không cần xử lý gì
     }
-
-    /**
-     * Kiểm tra URI có match với pattern không
-     */
+    // Hàm kiểm tra route có khớp với danh sách patterns không
     private static function matchRoute($uri, $patterns)
     {
         foreach ($patterns as $pattern) {
@@ -96,17 +80,13 @@ class Middleware
         return false;
     }
 
-    /**
-     * Kiểm tra route có public không
-     */
+
     public static function isPublicRoute($uri)
     {
         return self::matchRoute($uri, self::$publicRoutes);
     }
 
-    /**
-     * Kiểm tra route có phải admin route không
-     */
+
     public static function isAdminRoute($uri)
     {
         return self::matchRoute($uri, self::$adminRoutes);

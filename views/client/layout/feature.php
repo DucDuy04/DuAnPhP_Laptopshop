@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Features Section
- * Style:  Pin/Marker màu vàng cam
- */
+
 ?>
 <!-- Featurs Section Start -->
 <div class="container-fluid featurs py-5">

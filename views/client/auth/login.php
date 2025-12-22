@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Login View
- * Tương đương client/auth/login.jsp
- */
+
 ?>
 <!DOCTYPE html>
 <html lang="vi">

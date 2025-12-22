@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Admin Header Layout
- * Sử dụng SB Admin Template
- */
+
 ?>
 <!DOCTYPE html>
 <html lang="vi">

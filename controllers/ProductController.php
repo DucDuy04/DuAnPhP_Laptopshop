@@ -1,9 +1,5 @@
 <?php
 
-/**
- * Product Controller (Client)
- * Tương đương ItemController.java - phần product
- */
 
 require_once __DIR__ . '/../core/Controller.php';
 require_once __DIR__ . '/../models/Product.php';
@@ -18,10 +14,8 @@ class ProductController extends Controller
         $this->productModel = new Product();
     }
 
-    /**
-     * Danh sách sản phẩm với filter
-     * Tương đương @GetMapping("/products")
-     */
+
+
     public function index()
     {
         $page = (int)($this->query('page', 1));
@@ -43,7 +37,7 @@ class ProductController extends Controller
         // Lấy sản phẩm
         $result = $this->productModel->findWithFilters($filters, $page, $perPage);
 
-        // Lấy danh sách factories và targets cho sidebar
+
         $factories = $this->productModel->getFactories();
         $targets = $this->productModel->getTargets();
 
@@ -59,10 +53,7 @@ class ProductController extends Controller
         ]);
     }
 
-    /**
-     * Chi tiết sản phẩm
-     * Tương đương @GetMapping("/product/{id}")
-     */
+
     public function show($id)
     {
         $product = $this->productModel->findById($id);

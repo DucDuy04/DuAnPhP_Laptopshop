@@ -1,9 +1,6 @@
 <?php
 
 /**
- * Order Model
- * Tương đương Order.java + OrderRepository.java
- * 
  * Table: orders
  * Relationships:
  *   - Order (N) -> (1) User
@@ -16,24 +13,22 @@ class Order extends Model
 {
     protected $table = 'orders';
 
-    // Order statuses
+    //Định nghĩa các trạng thái đơn hàng
     const STATUS_PENDING = 'PENDING';
     const STATUS_SHIPPING = 'SHIPPING';
     const STATUS_COMPLETE = 'COMPLETE';
     const STATUS_CANCELLED = 'CANCELLED';
 
-    /**
-     * Lấy orders của user
-     */
+    // Lấy orders của user với pagination
     public function findByUserId($userId, $page = 1, $perPage = 10)
     {
-        $offset = ($page - 1) * $perPage;
+        $offset = ($page - 1) * $perPage; // Tính toán offset
 
-        // Count
+        // Đếm tổng số đơn hàng của user
         $countSql = "SELECT COUNT(*) as total FROM {$this->table} WHERE user_id = :user_id";
         $total = $this->queryOne($countSql, ['user_id' => $userId])['total'];
 
-        // Get data
+        // lấy danh sách đơn hàng của user theo phân trang
         $sql = "SELECT * FROM {$this->table} 
                 WHERE user_id = :user_id 
                 ORDER BY id DESC 
@@ -51,12 +46,9 @@ class Order extends Model
         ];
     }
 
-    /**
-     * Lấy order với chi tiết
-     * Tương đương order.getOrderDetails() trong Java
-     */
+    // Lấy đơn hàng theo ID kèm chi tiết đơn hàng
     public function findByIdWithDetails($orderId)
-    {
+    {   // Lấy thông tin đơn hàng
         $order = $this->findById($orderId);
 
         if (! $order) {
@@ -73,18 +65,16 @@ class Order extends Model
         return $order;
     }
 
-    /**
-     * Lấy tất cả orders với pagination (Admin)
-     */
+   // Lấy tất cả đơn hàng kèm thông tin user với pagination
     public function findAllWithUser($page = 1, $perPage = 10)
     {
         $offset = ($page - 1) * $perPage;
 
-        // Count
+        // Đếm tổng số đơn hàng
         $countSql = "SELECT COUNT(*) as total FROM {$this->table}";
         $total = $this->queryOne($countSql)['total'];
 
-        // Get data with user info
+        // Lấy dữ liệu kèm thông tin user
         $sql = "SELECT o.*, u.fullName as user_name, u.email as user_email
                 FROM {$this->table} o
                 LEFT JOIN users u ON o.user_id = u.id
@@ -103,9 +93,7 @@ class Order extends Model
         ];
     }
 
-    /**
-     * Tạo đơn hàng mới
-     */
+    // Tạo đơn hàng mới
     public function createOrder($userId, $receiverInfo, $totalPrice)
     {
         return $this->create([
@@ -118,17 +106,13 @@ class Order extends Model
         ]);
     }
 
-    /**
-     * Cập nhật trạng thái đơn hàng
-     */
+    // Cập nhật trạng thái đơn hàng
     public function updateStatus($orderId, $status)
     {
         return $this->update($orderId, ['status' => $status]);
     }
 
-    /**
-     * Đếm orders theo status
-     */
+   // Đếm số đơn hàng theo trạng thái
     public function countByStatus($status)
     {
         $sql = "SELECT COUNT(*) as count FROM {$this->table} WHERE status = :status";
@@ -136,9 +120,7 @@ class Order extends Model
         return $result['count'];
     }
 
-    /**
-     * Tính tổng doanh thu
-     */
+   // Tính tổng doanh thu từ các đơn hàng đã hoàn thành
     public function getTotalRevenue()
     {
         $sql = "SELECT SUM(total_price) as revenue FROM {$this->table} WHERE status = :status";

@@ -1,10 +1,6 @@
 <?php
 
-/**
- * Client Header Layout - full-bleed header
- * Thay thế file cũ bằng file này để header chiếm trọn chiều rộng.
- * Không thay đổi logic backend (Auth/CSRF...) — chỉ thay giao diện.
- */
+
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -20,6 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css">
 
     <!-- Inline CSS (you can move to public/css/style.css) -->
     <style>

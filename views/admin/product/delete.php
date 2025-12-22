@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Admin Delete Product View
- * Tương đương admin/product/deleteproduct.jsp
- */
+
 require_once __DIR__ . '/../layout/header.php';
 require_once __DIR__ . '/../layout/sidebar.php';
 ?>

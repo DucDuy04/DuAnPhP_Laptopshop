@@ -1,9 +1,5 @@
 <?php
 
-/**
- * Cart Controller
- * Tương đương ItemController.java - phần cart
- */
 
 require_once __DIR__ . '/../core/Controller.php';
 require_once __DIR__ . '/../models/Cart.php';
@@ -25,10 +21,7 @@ class CartController extends Controller
         $this->productModel = new Product();
     }
 
-    /**
-     * Hiển thị giỏ hàng
-     * Tương đương @GetMapping("/cart")
-     */
+
     public function index()
     {
         requireLogin();
@@ -45,10 +38,7 @@ class CartController extends Controller
         ]);
     }
 
-    /**
-     * Thêm sản phẩm vào giỏ hàng
-     * Tương đương @PostMapping("/add-product-to-cart/{id}")
-     */
+
     public function addToCart($productId)
     {
         requireLogin();
@@ -101,10 +91,6 @@ class CartController extends Controller
         $this->redirect('/cart');
     }
 
-    /**
-     * Xóa sản phẩm khỏi giỏ hàng
-     * Tương đương @PostMapping("/remove-cart-item/{id}")
-     */
     public function removeFromCart($cartDetailId)
     {
         requireLogin();
@@ -127,10 +113,6 @@ class CartController extends Controller
         $this->redirect('/cart');
     }
 
-    /**
-     * Cập nhật số lượng trong giỏ hàng
-     * Tương đương @PostMapping("/confirm-checkout")
-     */
     public function update()
     {
         requireLogin();
@@ -175,9 +157,7 @@ class CartController extends Controller
         $this->redirect('/cart');
     }
 
-    /**
-     * Kiểm tra có phải AJAX request không
-     */
+    // Kiểm tra xem request có phải là AJAX không(AJAX: Asynchronous JavaScript And XML)
     private function isAjax()
     {
         return ! empty($_SERVER['HTTP_X_REQUESTED_WITH'])

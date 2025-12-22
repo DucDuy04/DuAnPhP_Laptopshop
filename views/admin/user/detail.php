@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Admin User Detail View
- * Tương đương admin/user/detail.jsp
- */
+
 require_once __DIR__ . '/../layout/header.php';
 require_once __DIR__ . '/../layout/sidebar.php';
 ?>

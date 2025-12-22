@@ -1,13 +1,6 @@
 <?php
 
-/**
-
- * Tương đương tất cả @RequestMapping trong Spring Controllers
- * Định nghĩa các routes cho ứng dụng
- * Ánh xạ URL đến các phương thức controller tương ứng
- */
-
-// ==================== CLIENT ROUTES ====================
+//Client routes
 
 // Home
 $router->get('/', 'HomeController@index');
@@ -39,7 +32,7 @@ $router->get('/order-history', 'CheckoutController@orderHistory');
 $router->get('/order/{id}', 'CheckoutController@showOrder');
 
 
-// ==================== ADMIN ROUTES ====================
+//Admin routes
 
 // Dashboard
 $router->get('/admin', 'admin/DashboardController@index');

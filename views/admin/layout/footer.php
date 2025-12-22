@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Admin Footer Layout
- * Sử dụng SB Admin Template
- */
+
 ?>
 </main>
 <footer class="py-4 bg-light mt-auto">
@@ -21,6 +18,28 @@
 
 <!-- SB Admin JS -->
 <script src="<?= asset('js/scripts.js') ?>"></script>
+
+<?php
+// Hiển thị flash messages (success / error) cho khu admin
+$flashSuccess = Session::flash('success');
+$flashError = Session::flash('error');
+if ($flashSuccess || $flashError): ?>
+    <div id="admin-flash" style="position:fixed;top:76px;right:20px;z-index:1080;max-width:40%;width:auto;">
+        <?php if ($flashSuccess): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <?= e($flashSuccess) ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($flashError): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?= e($flashError) ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>
 
 </body>
 

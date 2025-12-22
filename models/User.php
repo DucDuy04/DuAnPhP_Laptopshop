@@ -1,9 +1,6 @@
 <?php
 
 /**
- * User Model
- * Tương đương User.java + UserRepository.java
- * 
  * Table:  users
  * Relationships: 
  *   - User (N) -> (1) Role
@@ -17,18 +14,14 @@ class User extends Model
 {
     protected $table = 'users';
 
-    /**
-     * Tương đương findByEmail() trong UserRepository
-     */
+    // TÌm user theo email
     public function findByEmail($email)
     {
         $sql = "SELECT * FROM {$this->table} WHERE email = :email LIMIT 1";
         return $this->queryOne($sql, ['email' => $email]);
     }
 
-    /**
-     * Tương đương existsByEmail() trong UserRepository
-     */
+   // Kiểm tra sự tồn tại của email
     public function existsByEmail($email)
     {
         $sql = "SELECT COUNT(*) as count FROM {$this->table} WHERE email = :email";
@@ -36,18 +29,13 @@ class User extends Model
         return $result['count'] > 0;
     }
 
-    /**
-     * Tương đương findFirstByEmail() trong UserRepository
-     */
+    // Tìm user đầu tiên theo email
     public function findFirstByEmail($email)
     {
         return $this->findByEmail($email);
     }
 
-    /**
-     * Lấy user kèm theo role
-     * Tương đương user.getRole() trong Java
-     */
+    // Lấy user cùng với role
     public function findByIdWithRole($id)
     {
         $sql = "SELECT u.*, r.name as role_name, r.description as role_description 
@@ -57,9 +45,7 @@ class User extends Model
         return $this->queryOne($sql, ['id' => $id]);
     }
 
-    /**
-     * Lấy tất cả users với pagination và role
-     */
+    // Lấy tất cả users cùng với role, phân trang
     public function findAllWithRole($page = 1, $perPage = 10)
     {
         $offset = ($page - 1) * $perPage;
@@ -89,9 +75,7 @@ class User extends Model
         ];
     }
 
-    /**
-     * Tạo user mới với password được hash
-     */
+    // Tạo user mới với password được hash
     public function createUser($data)
     {
         // Hash password trước khi lưu
@@ -101,9 +85,7 @@ class User extends Model
         return $this->create($data);
     }
 
-    /**
-     * Cập nhật user
-     */
+    // Cập nhật user với password được hash nếu có thay đổi
     public function updateUser($id, $data)
     {
         // Hash password nếu có thay đổi
@@ -115,29 +97,20 @@ class User extends Model
         return $this->update($id, $data);
     }
 
-    /**
-     * Xác thực password
-     * Tương đương passwordEncoder.matches() trong Spring Security
-     */
+    // Xác thực password
     public function verifyPassword($password, $hashedPassword)
     {
         return password_verify($password, $hashedPassword);
     }
 
-    /**
-     * Lấy cart của user
-     * Tương đương user.getCart() trong Java
-     */
+    // Lấy cart của user
     public function getCart($userId)
     {
         $sql = "SELECT * FROM carts WHERE user_id = :user_id LIMIT 1";
         return $this->queryOne($sql, ['user_id' => $userId]);
     }
 
-    /**
-     * Lấy orders của user
-     * Tương đương user.getOrders() trong Java
-     */
+    // Lấy orders của user
     public function getOrders($userId)
     {
         $sql = "SELECT * FROM orders WHERE user_id = :user_id ORDER BY id DESC";

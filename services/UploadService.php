@@ -1,17 +1,11 @@
 <?php
 
-/**
- * Upload Service
- * Tương đương UploadService.java
- */
+// Service xử lý upload file
 
 class UploadService
 {
 
-    /**
-     * Upload file
-     * Tương đương handleSaveUploadFile() trong Java
-     */
+    // Xử lý upload file
     public function handleSaveUploadFile($file, $folder = 'images')
     {
         // Kiểm tra file hợp lệ
@@ -57,9 +51,7 @@ class UploadService
         return null;
     }
 
-    /**
-     * Xóa file
-     */
+    // Xóa file
     public function deleteFile($fileName, $folder = 'images')
     {
         // Map folder sang đúng thư mục

@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Products List View
- * Tương đương client/product/show.jsp
- */
+
 require_once __DIR__ . '/../layout/header.php';
 ?>
 

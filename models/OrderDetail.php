@@ -1,8 +1,6 @@
 <?php
+
 /**
- * OrderDetail Model
- * Tương đương OrderDetail.java + OrderDetailRepository.java
- * 
  * Table: order_details
  * Relationships:
  *   - OrderDetail (N) -> (1) Order
@@ -15,9 +13,7 @@ class OrderDetail extends Model
 {
     protected $table = 'order_details';
 
-    /**
-     * Lấy chi tiết của một order
-     */
+    // Lấy tất cả chi tiết đơn hàng theo order_id
     public function findByOrderId($orderId)
     {
         $sql = "SELECT od.*, p.name, p. image
@@ -27,9 +23,7 @@ class OrderDetail extends Model
         return $this->query($sql, ['order_id' => $orderId]);
     }
 
-    /**
-     * Tạo order detail
-     */
+    // Tạo chi tiết đơn hàng mới
     public function createOrderDetail($orderId, $productId, $quantity, $price)
     {
         return $this->create([
@@ -40,9 +34,7 @@ class OrderDetail extends Model
         ]);
     }
 
-    /**
-     * Tạo nhiều order details cùng lúc (từ cart)
-     */
+    // Tạo nhiều chi tiết đơn hàng từ giỏ hàng
     public function createFromCart($orderId, $cartItems)
     {
         foreach ($cartItems as $item) {
@@ -55,9 +47,7 @@ class OrderDetail extends Model
         }
     }
 
-    /**
-     * Xóa tất cả details của order
-     */
+    // Xóa chi tiết đơn hàng theo order_id
     public function deleteByOrderId($orderId)
     {
         $sql = "DELETE FROM {$this->table} WHERE order_id = :order_id";

@@ -1,16 +1,12 @@
 <?php
 
 /**
- * CSRF Protection
- * Tương đương CsrfFilter trong Spring Security
+Tạo và kiểm tra CSRF token, chống tấn công giả mạo request ( Cross-Site Request Forgery - CSRF)
  */
 
 class Csrf
 {
 
-    /**
-     * Tạo CSRF token mới
-     */
     public static function generateToken()
     {
         if (! isset($_SESSION['csrf_token'])) {
@@ -19,28 +15,20 @@ class Csrf
         return $_SESSION['csrf_token'];
     }
 
-    /**
-     * Lấy token hiện tại
-     */
+
     public static function getToken()
     {
         return $_SESSION['csrf_token'] ?? self::generateToken();
     }
 
-    /**
-     * Tạo hidden input field
-     * Tương đương <input type="hidden" name="_csrf" value="${_csrf.token}"> trong JSP
-     */
+    // Tạo hidden input field cho form
     public static function field()
     {
         $token = self::getToken();
         return '<input type="hidden" name="_csrf_token" value="' . $token . '">';
     }
 
-    /**
-     * Tạo meta tags cho AJAX
-     * Tương đương <meta name="_csrf" content="${_csrf.token}"> trong JSP
-     */
+    // Tạo thẻ meta cho CSRF token (dùng cho AJAX)
     public static function meta()
     {
         $token = self::getToken();
@@ -48,18 +36,14 @@ class Csrf
             '<meta name="_csrf_header" content="X-CSRF-TOKEN">';
     }
 
-    /**
-     * Validate CSRF token
-     * Tương đương CsrfFilter. doFilter()
-     */
+    // Kiểm tra CSRF token
     public static function validate()
     {
         // Bỏ qua GET requests
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             return true;
         }
-
-        // Lấy token từ POST hoặc Header (cho AJAX)
+        // Lấy token từ POST hoặc Header
         $token = $_POST['_csrf_token']
             ?? $_SERVER['HTTP_X_CSRF_TOKEN']
             ?? '';
@@ -72,9 +56,7 @@ class Csrf
         return true;
     }
 
-    /**
-     * Validate và throw error nếu invalid
-     */
+    // Kiểm tra CSRF token, nếu không hợp lệ trả về lỗi 403 và dừng chương trình
     public static function validateOrFail()
     {
         if (!self::validate()) {
@@ -89,18 +71,14 @@ class Csrf
         }
     }
 
-    /**
-     * Kiểm tra có phải AJAX request không
-     */
+    // Kiểm tra xem request có phải là AJAX không(AJAX: Asynchronous JavaScript And XML)
     private static function isAjax()
     {
         return ! empty($_SERVER['HTTP_X_REQUESTED_WITH'])
             && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
     }
 
-    /**
-     * Refresh token (tạo token mới sau khi submit form)
-     */
+    // Làm mới CSRF token
     public static function refresh()
     {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));

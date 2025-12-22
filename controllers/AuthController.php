@@ -1,9 +1,5 @@
 <?php
 
-/**
- * Auth Controller
- * Tương đương phần authentication trong HomePageController. java
- */
 
 require_once __DIR__ . '/../core/Controller.php';
 require_once __DIR__ . '/../models/User.php';
@@ -25,10 +21,7 @@ class AuthController extends Controller
         $this->validator = new UserValidator();
     }
 
-    /**
-     * Hiển thị trang đăng nhập
-     * Tương đương @GetMapping("/login")
-     */
+
     public function showLogin()
     {
         // Redirect nếu đã đăng nhập
@@ -39,10 +32,7 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Xử lý đăng nhập
-     * Tương đương Spring Security form login
-     */
+
     public function login()
     {
         Auth::redirectIfLoggedIn();
@@ -58,7 +48,7 @@ class AuthController extends Controller
             return;
         }
 
-        // Attempt login
+
         $result = Auth::login($email, $password);
 
         if ($result['success']) {
@@ -80,10 +70,7 @@ class AuthController extends Controller
         }
     }
 
-    /**
-     * Hiển thị trang đăng ký
-     * Tương đương @GetMapping("/register")
-     */
+
     public function showRegister()
     {
         Auth::redirectIfLoggedIn();
@@ -93,10 +80,7 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Xử lý đăng ký
-     * Tương đương @PostMapping("/register")
-     */
+
     public function register()
     {
         Auth::redirectIfLoggedIn();
@@ -130,20 +114,14 @@ class AuthController extends Controller
         }
     }
 
-    /**
-     * Đăng xuất
-     * Tương đương logout trong Spring Security
-     */
+
     public function logout()
     {
         Auth::logout();
         $this->redirect('/login');
     }
 
-    /**
-     * Trang Access Denied
-     * Tương đương @GetMapping("/access-denied")
-     */
+
     public function accessDenied()
     {
         $this->view('client/auth/access-denied', [

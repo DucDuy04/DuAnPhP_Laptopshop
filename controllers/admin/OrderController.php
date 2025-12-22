@@ -1,8 +1,11 @@
 <?php
 
 /**
- * Admin Order Controller
- * Tương đương OrderController.java
+Thực hiện các thao tác với Order và OrderDetail:
+Xem danh sách đơn hàng
+Xem chi tiết một đơn hàng
+Cập nhật trạng thái
+Xác nhận xóa và xóa đơn hàng
  */
 
 require_once __DIR__ . '/../../core/Controller.php';
@@ -23,14 +26,11 @@ class OrderController extends Controller
         $this->orderDetailModel = new OrderDetail();
     }
 
-    /**
-     * Danh sách orders
-     * Tương đương @GetMapping("/admin/order")
-     */
+    //Danh sách đơn hàng
     public function index()
     {
-        $page = (int)($this->query('page', 1));
-        $result = $this->orderModel->findAllWithUser($page, 5);
+        $page = (int)($this->query('page', 1)); //Lấy tham số page từ URL, mặc định là 1
+        $result = $this->orderModel->findAllWithUser($page, 5); //Lấy danh sách đơn hàng kèm thông tin user, phân trang 5 đơn mỗi trang
 
         $this->view('admin/order/show', [
             'orders' => $result['data'],
@@ -40,10 +40,7 @@ class OrderController extends Controller
         ]);
     }
 
-    /**
-     * Chi tiết order
-     * Tương đương @GetMapping("/admin/order/{id}")
-     */
+
     public function show($id)
     {
         $order = $this->orderModel->findByIdWithDetails($id);
@@ -60,10 +57,7 @@ class OrderController extends Controller
         ]);
     }
 
-    /**
-     * Form cập nhật order
-     * Tương đương @GetMapping("/admin/order/update/{id}")
-     */
+
     public function edit($id)
     {
         $order = $this->orderModel->findById($id);
@@ -88,27 +82,21 @@ class OrderController extends Controller
         ]);
     }
 
-    /**
-     * Xử lý cập nhật order
-     * Tương đương @PostMapping("/admin/order/update/{id}")
-     */
+
     public function update($id)
     {
-        $status = $this->input('status');
+        $status = $this->input('status'); //Lấy trạng thái mới từ form
 
-        $order = $this->orderModel->findById($id);
+        $order = $this->orderModel->findById($id); //Kiểm tra đơn hàng có tồn tại không
         if ($order) {
             $this->orderModel->updateStatus($id, $status);
-            Session::flash('success', 'Cập nhật trạng thái đơn hàng thành công!');
+            Session::flash('success', 'Cập nhật trạng thái đơn hàng thành công!'); //Hiển thị thông báo thành công
         }
 
         $this->redirect('/admin/order');
     }
 
-    /**
-     * Form xác nhận xóa
-     * Tương đương @GetMapping("/admin/order/delete/{id}")
-     */
+
     public function confirmDelete($id)
     {
         $order = $this->orderModel->findById($id);
@@ -125,10 +113,7 @@ class OrderController extends Controller
         ]);
     }
 
-    /**
-     * Xử lý xóa order
-     * Tương đương @PostMapping("/admin/order/delete/{id}")
-     */
+
     public function delete($id)
     {
         // Xóa order details trước

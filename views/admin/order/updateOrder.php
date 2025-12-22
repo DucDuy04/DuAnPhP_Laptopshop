@@ -1,8 +1,6 @@
 <?php
-/**
- * Admin Update Order View
- * Tương đương admin/order/updateorder.jsp
- */
+
+
 require_once __DIR__ . '/../layout/header.php';
 require_once __DIR__ . '/../layout/sidebar.php';
 ?>
@@ -15,7 +13,7 @@ require_once __DIR__ . '/../layout/sidebar.php';
             <li class="breadcrumb-item"><a href="<?= url('/admin/order') ?>">Orders</a></li>
             <li class="breadcrumb-item active">Update #<?= $order['id'] ?></li>
         </ol>
-        
+
         <div class="row">
             <div class="col-md-6 mx-auto">
                 <div class="card">
@@ -43,21 +41,22 @@ require_once __DIR__ . '/../layout/sidebar.php';
                                 </tr>
                             </table>
                         </div>
-                        
+
                         <form method="POST" action="<?= url('/admin/order/update/' . $order['id']) ?>">
                             <?= Csrf::field() ?>
-                            
+
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Trạng thái đơn hàng</label>
                                 <select name="status" class="form-select form-select-lg">
                                     <?php foreach ($statuses as $value => $label): ?>
-                                    <option value="<?= $value ?>" <?= $order['status'] == $value ? 'selected' : '' ?>>
-                                        <?= $label ?>
-                                    </option>
+                                        <option value="<?= $value ?>" <?= $order['status'] == $value ? 'selected' : '' ?>>
+                                            <!-- Chọn trạng thái mặc định của order -->
+                                            <?= $label ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-                            
+
                             <div class="d-flex gap-2">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-save me-1"></i> Cập nhật

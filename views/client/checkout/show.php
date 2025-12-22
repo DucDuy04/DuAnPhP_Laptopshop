@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Checkout View
- * Tương đương client/cart/checkout.jsp
- */
+
 require_once __DIR__ . '/../layout/header.php';
 ?>
 

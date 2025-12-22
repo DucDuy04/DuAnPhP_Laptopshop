@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Client Footer Layout
- * Tương đương client/layout/footer.jsp
- */
+
 ?>
 </div><!-- End main content wrapper -->
 

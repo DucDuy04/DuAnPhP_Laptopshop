@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Admin Order List View
- * Tương đương admin/order/show.jsp
- */
+
 require_once __DIR__ . '/../layout/header.php';
 require_once __DIR__ . '/../layout/sidebar.php';
 ?>
@@ -87,7 +84,7 @@ require_once __DIR__ . '/../layout/sidebar.php';
                 <?php if ($totalPages > 1): ?>
                     <nav>
                         <ul class="pagination justify-content-center">
-                            <?php if ($currentPage > 1): ?>
+                            <?php if ($currentPage > 1): ?><!--//Hiển thị nút Previous nếu không phải trang đầu tiên -->
                                 <li class="page-item">
                                     <a class="page-link" href="<?= url('/admin/order? page=' . ($currentPage - 1)) ?>">
                                         <i class="fas fa-chevron-left"></i>
@@ -101,7 +98,7 @@ require_once __DIR__ . '/../layout/sidebar.php';
                                 </li>
                             <?php endfor; ?>
 
-                            <?php if ($currentPage < $totalPages): ?>
+                            <?php if ($currentPage < $totalPages): ?><!-- //Hiển thị nút Next nếu không phải trang cuối cùng -->
                                 <li class="page-item">
                                     <a class="page-link" href="<?= url('/admin/order?page=' . ($currentPage + 1)) ?>">
                                         <i class="fas fa-chevron-right"></i>
